@@ -5,7 +5,6 @@ import Pages.Hotels.LandingPage;
 import Pages.Hotels.SearchPage;
 import cucumber.api.java.en.Then;
 import cucumber.api.java.en.When;
-import org.openqa.selenium.By;
 import org.testng.Assert;
 
 public class Search_stepDefinition {
@@ -14,12 +13,12 @@ public class Search_stepDefinition {
     SearchPage sPage = new SearchPage();
 
 
-    @When("^I enter '.+' in search$")
+    @When("^I enter (.+) in search$")
     public void enterInSearch(String text) {
         lPage.enterInput(text);
     }
 
-    @When("^I enter '.+' from autosuggestion$")
+    @When("^I enter (.+) from autosuggestion$")
     public void enterDestination(String destination) {
         lPage.enterDestination(destination);
     }
@@ -34,21 +33,22 @@ public class Search_stepDefinition {
         Assert.assertEquals(sPage.searchPageTitle(),"hotels in Lake George, New York, United States of America", "Else incorrect header");
     }
 
-    @Then("^I verify text under 'Destination, property or landmark' is same as selecetd from autosuggestion$")
+    @Then("^I verify text under (.+) is same as selecetd from autosuggestion$")
     public void isTextSameAsOnLandingPage(String destination) {
         Assert.assertEquals(sPage.textSameOnSearchPage(), destination, "Else destination does not match");
     }
 
-    @When("^I select 2 in children dropdown$")
+    @When("^I select (.+) in children dropdown$")
     public void selectChildQuantity(String value) {
         lPage.enterChildQuantity(value);
     }
-    @When("^I enter Child 1 age '4'$")
+
+    @When("^I enter Child 1 age (.+)$")
     public void enterChildAge(String value) {
         lPage.enterChildAge1(value);
     }
 
-    @When("^I enter Child 2 age '1'$")
+    @When("^I enter Child 2 age (.+)$")
     public void enterSecondChildAge(String value) {
         lPage.enterChildAge2(value);
     }

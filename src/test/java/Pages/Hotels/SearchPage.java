@@ -10,13 +10,13 @@ import org.openqa.selenium.support.ui.Select;
 public class SearchPage extends BasePage {
 
     By inputLocation = By.xpath("//input[@data-current-location='Current location']");
-    By price = By.xpath("//a[@data-menu='sort-submenu-price']");
-    By lowToHigh = By.linkText("//a[text()='Price (low to high)']");
+    By hotelsPrice = By.xpath("//a[@data-menu='sort-submenu-price']");
+    By sortPriceLowToHigh = By.linkText("//a[text()='Price (low to high)']");
     By hotelName = By.linkText("//a[text()='Lake View Inn']");
-    By lowestPrice = By.xpath("//ins[contains(text(),'$47')]");
+    By hotelsLowestPrice = By.xpath("//ins[contains(text(),'$47')]");
 
     public String searchPageTitle() {
-      return  getSearchPageTitle();
+      return  getPageTitle();
     }
 
     public String textSameOnSearchPage() {
@@ -24,25 +24,22 @@ public class SearchPage extends BasePage {
     }
 
     public void sortByPrice() {
-        JavascriptExecutor js = (JavascriptExecutor)Web.getDriver();
-        js.executeScript("scrollBy(0,200);");
-        clickThis(price);
-        clickThis(lowToHigh);
-        sortByLowToHighPrice(lowToHigh);
-
+        scrollDown(200);
+        clickThis(hotelsPrice);
+        clickThis(sortPriceLowToHigh);
     }
 
     public void printLowestPriceAndHotel() {
-        WebElement hotel = Web.getDriver().findElement(hotelName);
-        WebElement lowPrice =Web.getDriver().findElement(lowestPrice);
+        String hotel = getText(hotelName);
+        String lowPrice = getText(hotelsLowestPrice);
+
         System.out.println("Lowest priced Hotel search result " + hotel + "-" + lowPrice);
     }
 
     public int verifyLowestPriceIsLess() {
-       WebElement lowPrice = verifyTheLowestPrice(lowestPrice);
-       String price = lowPrice.getText();
-       int lPrice = Integer.valueOf(price);
-       return lPrice;
+        String lowestHotelPrice = getText(hotelsLowestPrice);
+        int lPrice = Integer.valueOf(lowestHotelPrice);
+        return lPrice;
     }
 
 }

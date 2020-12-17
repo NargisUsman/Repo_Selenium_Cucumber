@@ -22,10 +22,12 @@ public class LandingPage extends BasePage {
 
    By searchButton = By.xpath("//button[@type='submit']");
    By searchBox = By.id("qf-0q-destination");
-   By editInfo = By.xpath("//button[@type='button']");
-   By childQuantity = By.id("qf-0q-room-0-children");
-   By childAge = By.id("qf-0q-room-0-child-0-age");
-   By childAge2 =By.id("qf-0q-room-0-child-1-age");
+   By editReservationInfo = By.xpath("//button[@type='button']");
+   By childQuantityDropDown = By.id("qf-0q-room-0-children");
+   By childAgeDropDown = By.id("qf-0q-room-0-child-0-age");
+   By childAge2DropDown =By.id("qf-0q-room-0-child-1-age");
+   By destinationAutosuggest = By.xpath("//div[@class='widget-autosuggest widget-autosuggest-visible widget-autosuggest-results-15");
+
 
 
     /**
@@ -35,23 +37,21 @@ public class LandingPage extends BasePage {
    By briefcase = By.xpath("//span[@class='widget-query-num-nights']");
     **/
 
-   public void clearSearchBox() {
-       clearThis(searchBox);
-   }
+   //public void clearSearchBox() { clearThis(searchBox); }
 
-   public void clickEditInfo(){
-       clickThis(editInfo);
+   public void clickEditReservationInfo(){
+       clickThis(editReservationInfo);
    }
 
    public void enterInput(String input) {
-        enterThis(searchBox, input);
+       clickThis(searchBox);
+       clearThis(searchBox);
+       enterThis(searchBox, input);
    }
 
    public void enterDestination(String destination) {
-       enterLocation(searchBox, destination);
 
-       String text = "Lake George, New York, United States of America";
-       List<WebElement> places = Web.getDriver().findElements(By.xpath("//div[@class='widget-autosuggest widget-autosuggest-visible widget-autosuggest-results-15"));
+       List<WebElement> places = Web.getDriver().findElements(destinationAutosuggest);
 
        for (WebElement place: places) {
            if(place.getText().equalsIgnoreCase(destination)) {
@@ -63,27 +63,15 @@ public class LandingPage extends BasePage {
    }
 
    public void enterChildQuantity(String value) {
-       clickThis(childQuantity);
-
-    WebElement quantity = selectChildQuantity(childQuantity);
-       Select num = new Select(quantity);
-       num.selectByValue(value);
+       selectByVisibleText(childQuantityDropDown, value);
    }
 
    public void enterChildAge1(String value) {
-       clickThis(childAge);
-
-    WebElement age = selectChildAge(childAge);
-        Select num = new Select(age);
-        num.selectByValue(value);
+       selectByVisibleText(childAgeDropDown, value);
    }
 
     public void enterChildAge2(String value) {
-        clickThis(childAge2);
-
-        WebElement age = selectChildAge2(childAge2);
-        Select num = new Select(age);
-        num.selectByValue(value);
+        selectByVisibleText(childAge2DropDown, value);
     }
 
    public void clickSearch() {
@@ -95,6 +83,7 @@ public class LandingPage extends BasePage {
     /**
    public boolean isSearchButtonEnabled() {
        return Web.getDriver().findElement(searchButton).isEnabled();
+     or create a genetic method for isEnabled(); and than use it like --> isEnabled(searchButton);
    }
 
    public void selectCheckInDate(String checkInDate) {
@@ -121,7 +110,7 @@ public class LandingPage extends BasePage {
    }
 
    public String getBriefcaseText() {
-    return Web.getDriver().findElement(briefcase).getText();
+       return getText(locator);
    }
      **/
 }
